@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>BouncerEditor</title>
+    <link rel="stylesheet" href="res/css/styles-dark.css">
+    <link rel="stylesheet" href="res/css/app.css">
+</head>
+
+<body>
+    <header>
+        <h1>BouncerEditor</h1>
+        <ul id="menu">
+            <a href="#" class="download">
+                <li>Download</li>
+            </a>
+        </ul>
+    </header>
+    <div class="decal"></div>
+    <content>
+        <div class="map">
+        </div>
+        <div class="menu">
+        <ul>
+        <li type="obstacle" value="">
+            <span class="icon blocked"></span><span class="label">Blocked</span>
+        </li>
+        <li type="empty" value="">
+            <span class="icon empty"></span><span class="label">Empty</span>
+        </li>
+        <li type="bouncer" value="">
+            <span class="icon bouncer"></span><span class="label">Bouncer</span>
+        </li>
+        <li type="color" value="red">
+            <span class="icon color red"></span><span class="label">Color: Red</span>
+        </li>
+        <li type="color" value="green">
+            <span class="icon color green"></span><span class="label">Color: Green</span>
+        </li>
+        <li type="color" value="blue">
+            <span class="icon color blue"></span><span class="label">Color: Blue</span>
+        </li>
+        </ul>
+        </div>
+    </content>
+    <footer>
+        Generated with https://github.com/alexanderbazo/mme-app-template
+    </footer>
+
+    <script src="js/libs/mme-helper.min.js"></script>
+    <script src="js/libs/download.js"></script>
+    <script src="js/src/BouncerView.js"></script>
+    <script src="js/src/BouncerMap.js"></script>
+    <script src="js/src/BouncerMenu.js"></script>
+    <script src="js/src/BouncerEditor.js"></script>
+    <script>
+    App.BouncerEditor.init();
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,136 @@
+.map {
+    display: block;
+    position: relative;
+    width: 50%;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.map .tile {
+    display: block;
+    float: left;
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(250, 218, 114);
+    background-color: rgba(220, 220, 220, 0.5);
+}
+
+.map .empty {
+    background-color: rgba(120, 120, 120, 0.5);
+}
+
+.map .red {
+    background-color: rgb(220, 20, 20);
+}
+
+.map .green {
+    background-color: rgb(20, 220, 120);
+}
+
+.map .blue {
+    background-color: rgb(20, 20, 220);
+}
+
+.map .obstacle {
+    background: repeating-linear-gradient( -45deg, rgb(0, 0, 0), rgb(0, 0, 0) 10px, rgb(220, 220, 0) 10px, rgb(220, 220, 0) 20px);
+}
+
+.map .bouncer {
+    background-size: 90% 90%;
+    background-position: center center;
+    background-image: url("../img/bouncer.png");
+    background-repeat: no-repeat;
+}
+
+.map .tile:hover {
+    cursor: pointer;
+}
+
+.menu {
+    display: block;
+    position: fixed;
+    width: 10%;
+    top: 50;
+    left: 50;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(30, 30, 30);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: rgba(30, 30, 30, 0.5);
+}
+
+.menu ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.menu li {
+    display: inline-block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    color: rgb(250, 250, 250);
+    background-color: rgb(110, 110, 110);
+}
+
+.menu li:hover {
+    cursor: pointer;
+    color: rgb(0, 0, 0);
+    background-color: rgb(220, 220, 220);
+}
+
+.menu li * {
+    float: left;
+}
+
+.menu li .icon {
+    display: block;
+    width: 2em;
+    height: 2em;
+    background-color: rgb(30, 30, 30);
+}
+
+.menu li .red {
+    background-color: rgb(220, 20, 20);
+}
+
+.menu li .green {
+    background-color: rgb(20, 220, 120);
+}
+
+.menu li .blue {
+    background-color: rgb(20, 20, 220);
+}
+
+.menu li .empty {
+    background-color: rgba(100, 100, 100, 1);
+}
+
+.menu li .blocked {
+    background: repeating-linear-gradient( -45deg, rgb(0, 0, 0), rgb(0, 0, 0) 10px, rgb(220, 220, 0) 10px, rgb(220, 220, 0) 20px);
+}
+
+.menu li .bouncer {
+    background-size: 90% 90%;
+    background-position: center center;
+    background-image: url("../img/bouncer.png");
+    background-repeat: no-repeat;
+}
+
+.menu li .label {
+    display: block;
+    height: 2em;
+    line-height: 2em;
+    margin-left: 1em;
+}
+
+.hidden {
+    display: none;
+}

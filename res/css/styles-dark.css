@@ -1,0 +1,99 @@
+@font-face {
+    font-family: "Rokkitt";
+    src: url("../fonts/Rokkitt/Rokkitt-Regular.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+html {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    margin: 0;
+    background: rgba(40,40,40,1);
+    font-family: 'Rokkitt', serif;
+    color: #FFF;
+}
+
+header {
+    width: 100%;
+    height: 70px;
+    position: fixed;
+    top: 0px;
+    background: rgba(36,36,36,1);
+
+    text-align: center;
+    font-size: 30px;
+    line-height: 50px;
+}
+
+header h1 {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 1%;
+    margin: 0;
+    padding: 0;
+    line-height: 70px;
+    font-size: 1.5em;
+    text-align: left;
+}
+
+header #menu {
+    display: inline;
+    position: absolute;
+    right: 2%;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    line-height: 70px;
+}
+
+header #menu li {
+    display: inline-block;
+    margin: 0 1em 0 0;
+}
+
+header #menu a {
+    text-decoration: none;
+    color: #FFF;
+}
+
+header #menu a:hover {
+    color: rgb(236,250,114);
+}
+
+header #menu a.active {
+    color: rgb(250, 218, 114);
+}
+
+
+footer {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    padding: 1%;
+    text-align: center;
+    color: #FFF;
+}
+
+.decal {
+    position: fixed;
+    width: 100%;
+    top: 70px;
+    height : 2px;
+    background-color: #000;
+    border-bottom: 1px solid #333;
+}
+
+content {
+    flex: 1;
+    min-height: 100%;
+    padding: 25px;
+    margin-top: 90px;
+}
