@@ -1,0 +1,9 @@
+#ide
+bouncereditor.sublime-project
+bouncereditor.sublime-workspace
+
+#os
+.DS_Store
+
+#lib
+js/libs
