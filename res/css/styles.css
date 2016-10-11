@@ -1,9 +1,4 @@
-@font-face {
-    font-family: "Rokkitt";
-    src: url("../fonts/Rokkitt/Rokkitt-Regular.ttf");
-    font-weight: normal;
-    font-style: normal;
-}
+/* Paletton: http://paletton.com/#uid=13L0u0kllllelK-hQtgoQdqsl5u */
 
 html {
     height: 100%;
@@ -15,9 +10,9 @@ body {
     flex-direction: column;
     min-height: 100%;
     margin: 0;
-    background: rgba(255,255,255,1);
-    font-family: 'Rokkitt', serif;
-    color: #333;
+    background: #2E4172;
+    font-family: 'Roboto', sans-serif;
+    color: #FFF;
 }
 
 header {
@@ -25,7 +20,7 @@ header {
     height: 70px;
     position: fixed;
     top: 0px;
-    background: #EEE;
+    background: #060D1D;
 
     text-align: center;
     font-size: 30px;
@@ -61,24 +56,15 @@ header #menu li {
 
 header #menu a {
     text-decoration: none;
-    color: #333;
+    color: #FFF;
 }
 
 header #menu a:hover {
-    color: rgb(128, 114, 250);
+    color: #7F99D4;
 }
 
 header #menu a.active {
-    color: rgb(250, 114, 146);
-}
-
-
-footer {
-    position: fixed;
-    bottom: 0px;
-    width: 100%;
-    padding: 1%;
-    text-align: center;
+    color: #7F99D4;
 }
 
 .decal {
@@ -86,8 +72,8 @@ footer {
     width: 100%;
     top: 70px;
     height : 2px;
-    background-color: #DDD;
-    border-bottom: 1px solid #EEE;
+    background-color: #000;
+    border-bottom: 1px solid #162548;
 }
 
 content {

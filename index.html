@@ -3,59 +3,63 @@
 
 <head>
     <meta charset="utf-8">
-    <title>BouncerEditor</title>
-    <link rel="stylesheet" href="res/css/styles-dark.css">
+    <title>Karteneditor für Bouncer</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="res/css/styles.css">
     <link rel="stylesheet" href="res/css/app.css">
 </head>
 
 <body>
     <header>
-        <h1>BouncerEditor</h1>
+        <h1>Karteneditor für Bouncer</h1>
         <ul id="menu">
-            <a href="#" class="download">
-                <li>Download</li>
+            <a href="#" class="download" title="Download der XML-Datei">
+                <li><i class="fa fa-download" aria-hidden="true"></i></li>
             </a>
         </ul>
     </header>
     <div class="decal"></div>
     <content>
+    <span class="instruction">
+    <h1>Anleitung</h1>
+    Klicken Sie in ein Feld der Karte um dessen Status zu änden. Die fertige Karten können Sie über das Download-Icon als XMl-Datei herunterladen und in Ihrem Bouncer-Projekt verwenden.
+    <span class="last-update">Leztes Update: 11. Oktober 2016</span>
+    </span>
         <div class="map">
         </div>
         <div class="menu">
         <ul>
-        <li type="obstacle" value="">
-            <span class="icon blocked"></span><span class="label">Blocked</span>
+        <li data-type="OBSTACLE" data-value="BLOCKED">
+            <span class="icon blocked" data-shortcut="49"></span><span class="label">Blocked (Shortcut: '1')</span>
         </li>
-        <li type="empty" value="">
-            <span class="icon empty"></span><span class="label">Empty</span>
+        <li data-type="EMPTY" data-value="EMPTY">
+            <span class="icon empty" data-shortcut="50"></span><span class="label">Empty (Shortcut: '2')</span>
         </li>
-        <li type="bouncer" value="">
-            <span class="icon bouncer"></span><span class="label">Bouncer</span>
+        <li data-type="BOUNCER" data-value="BOUNCER">
+            <span class="icon bouncer" data-shortcut="51"></span><span class="label">Bouncer (Shortcut: '3')</span>
         </li>
-        <li type="color" value="red">
-            <span class="icon color red"></span><span class="label">Color: Red</span>
+        <li data-type="COLOR" data-value="RED">
+            <span class="icon color red" data-shortcut="52"></span><span class="label">Color: Red (Shortcut: '4')</span>
         </li>
-        <li type="color" value="green">
-            <span class="icon color green"></span><span class="label">Color: Green</span>
+        <li data-type="COLOR" data-value="GREEN">
+            <span class="icon color green" data-shortcut="53"></span><span class="label">Color: Green (Shortcut: '5')</span>
         </li>
-        <li type="color" value="blue">
-            <span class="icon color blue"></span><span class="label">Color: Blue</span>
+        <li data-type="COLOR" data-value="BLUE">
+            <span class="icon color blue" data-shortcut="54"></span><span class="label">Color: Blue (Shortcut: '6')</span>
         </li>
         </ul>
         </div>
     </content>
-    <footer>
-        Generated with https://github.com/alexanderbazo/mme-app-template
-    </footer>
 
-    <script src="js/libs/mme-helper.min.js"></script>
-    <script src="js/libs/download.js"></script>
+    <script src="https://use.fontawesome.com/d4d77be08a.js"></script>
+    <script src="js/libs/helper.js"></script>
+    <script src="js/src/BouncerEditor.js"></script>
+    <script src="js/src/BouncerConfig.js"></script>
     <script src="js/src/BouncerView.js"></script>
     <script src="js/src/BouncerMap.js"></script>
     <script src="js/src/BouncerMenu.js"></script>
-    <script src="js/src/BouncerEditor.js"></script>
     <script>
-    App.BouncerEditor.init();
+        BouncerEditor.init();
     </script>
 
 </body>

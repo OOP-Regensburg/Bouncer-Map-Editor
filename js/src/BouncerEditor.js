@@ -1,53 +1,65 @@
-var App = App || {};
-App.BouncerEditor = (function() {
+/* eslint-env browser  */
+/* global Downloader */
+var BouncerEditor = (function() {
     "use strict";
-    /* eslint-env browser, jquery  */
 
-    var view,
-    	map,
+    var that = {},
+        DEFAULTS = {
+            MAP: {
+                width: 15,
+                height: 15,
+            },
+        },
+        config,
+        view,
+        map,
         menu,
-        currentField = {
-        	x: 0,
-        	y: 0,
-        	state: undefined
-        };
+        downloadButton,
+        currentField;
 
     function downloadXML() {
-    	var xml = map.getXML();
-    	download(xml, "Bouncer.xml", "text/xml");
+        var xml = map.getXML();
+        Downloader.downloadAsFile("Bouncer.xml", xml, "text/xml");
+    }
+
+    function onTileClicked(event) {
+        currentField = {
+            x: event.data.x,
+            y: event.data.y,
+            state: event.data.state,
+        };
+        menu.setPosition(event.data.mouseX, event.data.mouseY, 5);
+        menu.show();
+    }
+
+    function onMenuEntrySelected(event) {
+        menu.hide();
+        if (currentField !== undefined) {
+
+            map.updateTile(currentField.x, currentField.y, event.data.type, event.data.value);
+            currentField = undefined;
+        }
     }
 
     function init() {
-        view = new App.BouncerView(document.querySelector(".map"));
-        view.addEventListener("tileClicked", function(data) {
-        	currentField.x = data.data.x;
-        	currentField.y = data.data.y;
-        	currentField.state = data.data.state;
-        	menu.setPosition(data.data.mouseX, data.data.mouseY, 5);
-        	menu.show();
-        });
+        config = BouncerEditor.Config;
+        view = new BouncerEditor.View(document.querySelector(".map"), config);
+        view.addEventListener("tileClicked", onTileClicked);
 
-        map = new App.BouncerMap();
-        map.addEventListener("mapUpdate", function(data) {
-        	view.render(data.data);
-        });
-
-        menu = new App.BouncerMenu(document.querySelector(".menu"));
+        menu = new BouncerEditor.Menu(document.querySelector(".menu"), config);
         menu.hide();
-        menu.addEventListener("menuEntrySelected", function(data) {
-        	menu.hide();
-       		map.updateTile(currentField.x, currentField.y, data.data.type, data.data.value);
-        });
+        menu.addEventListener("menuEntrySelected", onMenuEntrySelected);
 
-        map.loadMap({
-            width: 15,
-            height: 15
+        map = new BouncerEditor.Map(config);
+        map.addEventListener("mapUpdate", function(data) {
+            view.render(data.data);
         });
+        map.loadMap(DEFAULTS.MAP);
 
-        document.querySelector("#menu .download").addEventListener("click", downloadXML);  
+        downloadButton = document.querySelector("#menu .download");
+        downloadButton.addEventListener("click", downloadXML);
     }
 
-    return {
-        init: init
-    };
+    that.init = init;
+    return that;
 }());

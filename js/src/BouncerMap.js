@@ -1,34 +1,35 @@
-var App = App || {};
+/* eslint-env browser  */
+/* global EventPublisher */
 
-App.BouncerMap = function() {
+var BouncerEditor = BouncerEditor || {};
+BouncerEditor.Map = function(config) {
     "use strict";
-    /* eslint-env browser, jquery  */
     var that = new EventPublisher(),
         map;
 
-    function loadMap(config) {
-        initMap(config);
-        that.notifyAll("mapUpdate", map)
+    function loadMap(data) {
+        initMap(data);
+        that.notifyAll("mapUpdate", map);
     }
 
-    function initMap(config) {
-        map = new Array(config.height);
-        for (var i = 0; i < map.length; i++) {
-            map[i] = new Array(config.width);
+    function initMap(data) {
+        map = new Array(data.height);
+        for (let i = 0; i < map.length; i++) {
+            map[i] = new Array(data.width);
         }
 
-        for (var y = 0; y < config.height; y++) {
-            for (var x = 0; x < config.width; x++) {
-                setTileState(x, y, App.BouncerMap.TileState.EMPTY);
+        for (let y = 0; y < data.height; y++) {
+            for (let x = 0; x < data.width; x++) {
+                setTile(x, y, BouncerEditor.Map.TileState.EMPTY);
             }
         }
     }
 
     function clearBouncerTile() {
-        for (var y = 0; y < map.length; y++) {
-            for (var x = 0; x < map[0].length; x++) {
-                if (map[x][y].getState() === App.BouncerMap.TileState.BOUNCER) {
-                    setTileState(x, y, App.BouncerMap.TileState.EMPTY);
+        for (let y = 0; y < map.length; y++) {
+            for (let x = 0; x < map[0].length; x++) {
+                if (map[x][y].getType() === BouncerEditor.Map.TileState.BOUNCER) {
+                    setTile(x, y, BouncerEditor.Map.TileState.EMPTY);
                     break;
                 }
             }
@@ -36,109 +37,118 @@ App.BouncerMap = function() {
 
     }
 
-    function setTileState(x, y, state, value) {
-        switch (state) {
-            case App.BouncerMap.TileState.EMPTY:
-                map[x][y] = new App.BouncerMap.EmpytTile(x, y);
+    function setTile(x, y, type, value) {
+        switch (type) {
+            case BouncerEditor.Map.TileState.EMPTY:
+                map[x][y] = new BouncerEditor.Map.EmpytTile(x, y);
                 break;
-            case App.BouncerMap.TileState.COLOR:
-                map[x][y] = new App.BouncerMap.ColorTile(x, y, value);
+            case BouncerEditor.Map.TileState.COLOR:
+                map[x][y] = new BouncerEditor.Map.ColorTile(x, y, value);
                 break;
-            case App.BouncerMap.TileState.BOUNCER:
+            case BouncerEditor.Map.TileState.BOUNCER:
                 clearBouncerTile();
-                map[x][y] = new App.BouncerMap.BouncerTile(x, y, value);
+                map[x][y] = new BouncerEditor.Map.BouncerTile(x, y, value);
                 break;
-            case App.BouncerMap.TileState.BLOCKED:
-                map[x][y] = new App.BouncerMap.BlockedTile(x, y);
+            case BouncerEditor.Map.TileState.BLOCKED:
+                map[x][y] = new BouncerEditor.Map.BlockedTile(x, y);
+                break;
+            default:
                 break;
         }
     }
 
-    function updateTile(x, y, state, value) {
-        setTileState(x, y, state, value);
-        that.notifyAll("mapUpdate", map)
+    function updateTile(x, y, type, value) {
+        setTile(x, y, type, value);
+        that.notifyAll("mapUpdate", map);
     }
 
     function getXML() {
-        var xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n";
-        xml += "<map>\n";
-        for (var y = 0; y < map.length; y++) {
-            for (var x = 0; x < map[0].length; x++) {
-                if (map[x][y].getState() !== App.BouncerMap.TileState.EMPTY) {
+        var xml = config.XML_HEADER_ELEMENT + config.XML_NEW_LINE;
+        xml += "<" + config.XML_ROOT + ">" + config.XML_NEW_LINE;
+        for (let y = 0; y < map.length; y++) {
+            for (let x = 0; x < map[0].length; x++) {
+                if (map[x][y].getType() !== BouncerEditor.Map.TileState.EMPTY) {
                     xml += map[x][y].getXML() + "\n";
                 }
             }
         }
-        xml += "</map>";
+        xml += "</" + config.XML_ROOT + ">";
         return xml;
     }
 
+    BouncerEditor.Map.TileState = {};
+    BouncerEditor.Map.TileState.BLOCKED = config.TILE_STATE_BLOCKED;
+    BouncerEditor.Map.TileState.COLOR = config.TILE_STATE_COLOR;
+    BouncerEditor.Map.TileState.EMPTY = config.TILE_STATE_EMPTY;
+    BouncerEditor.Map.TileState.BOUNCER = config.TILE_STATE_BOUNCER;
+
+    BouncerEditor.Map.MapTile = function(x, y, type, value) {
+        var that = {},
+            tileType = type || "",
+            tileValue = value || "",
+            tileX = x || 0,
+            tileY = y || 0;
+
+        function getX() {
+            return tileX;
+        }
+
+        function getY() {
+            return tileY;
+        }
+
+        function getType() {
+            return tileType;
+        }
+
+        function getValue() {
+            return tileValue;
+        }
+
+        function getNode() {
+            var valueClass = that.getValue() || "";
+            return Node.fromString("<span class='tile " + that.getType().toLowerCase() + " " + valueClass.toLowerCase() + "' data-type='" + that.getType() + "' data-value='" + that.getValue().toLowerCase() + "' data-x='" + that.getX() + "' data-y='" + that.getY() + "'></span>");
+        }
+
+        function getXML() {
+            return "<" + that.getType().toLowerCase() + " x=\"" + that.getX() + "\" y=\"" + that.getY() + "\"  value=\"" + that.getValue() + "\" />";
+        }
+
+        that.getX = getX;
+        that.getY = getY;
+        that.getType = getType;
+        that.getValue = getValue;
+        that.getNode = getNode;
+        that.getXML = getXML;
+
+        return that;
+    };
+
+    BouncerEditor.Map.EmpytTile = function(x, y) {
+        var that = new BouncerEditor.Map.MapTile(x, y, BouncerEditor.Map.TileState.EMPTY);
+
+        return that;
+    };
+
+    BouncerEditor.Map.ColorTile = function(x, y, color) {
+        var that = new BouncerEditor.Map.MapTile(x, y, BouncerEditor.Map.TileState.COLOR, color);
+        return that;
+    };
+
+    BouncerEditor.Map.BouncerTile = function(x, y) {
+        var that = new BouncerEditor.Map.MapTile(x, y, BouncerEditor.Map.TileState.BOUNCER);
+
+        return that;
+    };
+
+    BouncerEditor.Map.BlockedTile = function(x, y) {
+        var that = new BouncerEditor.Map.MapTile(x, y, BouncerEditor.Map.TileState.BLOCKED);
+
+        return that;
+    };
 
     that.loadMap = loadMap;
     that.updateTile = updateTile;
     that.getXML = getXML;
     return that;
 };
-
-App.BouncerMap.TileState = {};
-App.BouncerMap.TileState.BLOCKED = "obstacle";
-App.BouncerMap.TileState.COLOR = "color";
-App.BouncerMap.TileState.EMPTY = "empty";
-App.BouncerMap.TileState.BOUNCER = "bouncer";
-
-App.BouncerMap.MapTile = function(x, y, state, value) {
-    var that = {};
-
-    function getX() {
-        return x;
-    }
-
-    function getY() {
-        return y;
-    }
-
-    function getState() {
-        return state;
-    }
-
-    function getNode() {
-        var valueClass = value || "";
-        return Node.fromString("<span class='tile " + state + " " + valueClass + "' state='" + state + "' x='" + x + "' y='" + y + "'></span>");
-    }
-
-    function getXML() {
-        return "<" + state + " x=\"" + x + "\" y=\"" + y + "\"  value=\"" + value + " \" />";
-    }
-
-    that.getX = getX;
-    that.getY = getY;
-    that.getState = getState;
-    that.getNode = getNode;
-    that.getXML = getXML;
-
-    return that;
-}
-
-App.BouncerMap.EmpytTile = function(x, y) {
-    var that = new App.BouncerMap.MapTile(x, y, App.BouncerMap.TileState.EMPTY);
-
-    return that;
-}
-
-App.BouncerMap.ColorTile = function(x, y, color) {
-    var that = new App.BouncerMap.MapTile(x, y, App.BouncerMap.TileState.COLOR, color);
-
-    return that;
-}
-
-App.BouncerMap.BouncerTile = function(x, y) {
-    var that = new App.BouncerMap.MapTile(x, y, App.BouncerMap.TileState.BOUNCER);
-
-    return that;
-}
-
-App.BouncerMap.BlockedTile = function(x, y) {
-    var that = new App.BouncerMap.MapTile(x, y, App.BouncerMap.TileState.BLOCKED);
-
-    return that;
-}
